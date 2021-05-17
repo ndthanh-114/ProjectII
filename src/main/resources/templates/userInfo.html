@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<title>Dự án</title>
+<meta charset="utf-8" />
+<th:block th:include="/_header_src"></th:block>
+
+
+</head>
+<style>
+#userInfoHeader {
+	color: white;
+	margin-right: 10px;
+	opacity: 50%;
+}
+
+#userInfoHeader:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.navbar-brand {
+	opacity: 50%;
+}
+
+.navbar-brand:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.nav-logout {
+	color: white;
+	text-decoration: none;
+	opacity: 50%;
+}
+
+.nav-logout:hover {
+	color: white;
+	opacity: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.myBtn:hover {
+	 text-decoration: underline;
+	color: #1E90FF;
+}
+
+.style-menu{
+	color:gray;
+	text-decoration: none;
+	margin: 0 3px;
+	display: block;
+}
+.style-menu:hover {
+	color:white;
+	display: block;
+	text-decoration: none;
+}
+
+</style>
+<body>
+	<th:block th:include="/_header_new"></th:block>
+	<th:block th:include="/_menu"></th:block>
+
+
+
+	<div class="container ">
+		<h1>Thông tin cá nhân:</h1>
+		<h4>Tên tài khoản: [[${employee.name}]]</h4>
+		<h4>Email tài khoản: [[${employee.email}]]</h4>
+		<h4>Số điện thoại: [[${employee.phone}]]</h4>
+		<h4>Quyền hạn: [[${employee.role}]]</h4>
+	</div>
+
+	
+
+
+</body>
+</html>

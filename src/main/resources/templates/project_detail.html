@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<title>Dự án</title>
+<meta charset="utf-8" />
+<th:block th:include="/_header_src"></th:block>
+
+
+</head>
+<style>
+#userInfoHeader {
+	color: white;
+	margin-right: 10px;
+	opacity: 50%;
+}
+
+#userInfoHeader:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.navbar-brand {
+	opacity: 50%;
+}
+
+.navbar-brand:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.nav-logout {
+	color: white;
+	text-decoration: none;
+	opacity: 50%;
+}
+
+.nav-logout:hover {
+	color: white;
+	opacity: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.myBtn:hover {
+	 text-decoration: underline;
+	color: #1E90FF;
+}
+
+.style-menu{
+	color:gray;
+	text-decoration: none;
+	margin: 0 3px;
+	display: block;
+}
+.style-menu:hover {
+	color:white;
+	display: block;
+	text-decoration: none;
+}
+
+</style>
+<body>
+	<th:block th:include="/_header_new"></th:block>
+	<th:block th:include="/_menu"></th:block>
+
+
+
+	<div class="container text-center">
+		<h1>Dự án [[${project.name}]]</h1>
+		<h4>Ngày tạo [[${project.createDate}]]</h4>
+		<h4>Ngày kết thúc [[${project.endDate}]]</h4>
+		<th:block th:if="${project.completeDate} !=null">
+			<h4>Ngày hoàn thành [[${project.completeDate}]]</h4>
+		</th:block>
+	</div>
+
+	<div class="container">
+		<table border="1"
+			class="table table-responsive-md table-hover text-center">
+			<thead class="thead-dark">
+				<tr>
+					<th class="ID">ID</th>
+					<th class="text-center">Tên công việc</th>
+					<th class="text-center">Ngày tạo</th>
+					<th class="text-center">Ngày kết thúc</th>
+					<th class="text-center">Tiến độ</th>
+					<th class="text-center">Nhân viên làm</th>
+					<th class="text-center">Được giao bởi</th>
+					<th class="text-center">Hành động</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="task : ${listTasks}" th:id="${task.id}+1000">
+					<td class="onRow col-sm-0" th:text="${task.id}" />
+					<td th:text="${task.decription}"></td>
+					<td th:text="${task.createDate}"></td>
+					<td th:text="${task.endDate}"></td>
+
+					<td class= "cot5"><th:block th:if="${task.progressTask} < 100">
+
+							<p>[[${task.progressTask}]]</p>
+
+						</th:block> <th:block th:if="${task.progressTask} == 100">
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Hoàn thành lúc: [[${task.completeDate}]]</i></strong>
+							</p>
+							<a class="btn btn-info btnBad" id="btnBad" value="101"><i
+								class="far fa-thumbs-down"></i></a>
+							<a class="btn btn-info btnGood" id="btnGood" value="102"><i
+								class="far fa-thumbs-up"></i></a>
+
+						</th:block> <th:block th:if="${task.progressTask} == 101">
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Hoàn thành lúc: [[${task.completeDate}]]</i></strong>
+							</p>
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Đánh giá: Kém</i></strong>
+							</p>
+							
+						</th:block> <th:block th:if="${task.progressTask} == 102">
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Hoàn thành lúc: [[${task.completeDate}]]</i></strong>
+							</p>
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Đánh giá: Tốt</i></strong>
+							</p>
+						</th:block></td>
+					<td th:id="${task.id}"><th:block
+							th:each="taskToEmployee : ${task.task_to_employee}">
+							<div th:text="${taskToEmployee.employee.name}"></div>
+
+
+
+						</th:block></td>
+					<td th:class="${task.id}"><th:block
+							th:each="taskToEmployee : ${task.task_to_employee}">
+							<div th:text="${taskToEmployee.modifyBy.name}"></div>
+
+						</th:block></td>
+
+					<td><a class="btn btn-info editBtn" id="editTaskDetail"><i
+							class="fas fa-pen"></i></a> <a class="btn btn-info delBtn"
+						id="btnDelTaskDetail"><i class="fas fa-trash"></i></a></td>
+
+				</tr>
+			</tbody>
+		</table>
+
+		<!--modal-->
+
+		<div class="myForm">
+			<form th:action="@{/rest/adminUpdateTaskToEmployee}" method="POST">
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Công việc</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<div class="form-group">
+									<label for="chooseEmployee" class="col-form-label">Chọn
+										nhân viên:</label> <select id="dropDownEmployees" class="form-control"
+										size="4">
+
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="emailEmployee" class="col-form-label">Email
+										nhân viên:</label> <label id="emailEmployee" class="col-form-label"></label>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<input type="submit" id="btnTaskToEmployee"
+									class="btn btn-primary" data-dismiss="modal" value="Lưu">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="myFormDel">
+			<form>
+				<div class="modal fade" id="delModal" tabindex="-1" role="dialog"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="tasked">Công việc đã giao</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<div class="form-group">
+									<label for="delChooseEmployee" class="col-form-label">Chọn
+										nhân viên:</label> <select id="delDropDownEmps" class="form-control"
+										size="4">
+
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="delEmailEmployee" class="col-form-label">Email
+										nhân viên:</label> <label id="delEmailEmployee" class="col-form-label"></label>
+								</div>
+								<div class="form-group">
+									<label for="delEmailEmployee" class="col-form-label">Được
+										giao bởi:</label> <label id="labelDelModifyBy" class="col-form-label"></label>
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+
+								<input type="submit" id="btnDelTaskToEmployee"
+									class="btn btn-primary" data-dismiss="modal"
+									value="Xóa khỏi công việc"> <input type="submit"
+									id="btnDelAllOfTask" class="btn btn-primary"
+									data-dismiss="modal" value="Xóa cả công việc">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal myDanhGiaBad" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Đánh giá của bạn về công việc này</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p id = "danhGiaCuaToiBad"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id = "saveUpdateBad" data-dismiss="modal">Đánh giá</button>
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Trở về</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal myDanhGiaGood" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Đánh giá của bạn về công việc này</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p id = "danhGiaCuaToiGood"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id = "saveUpdateGood" data-dismiss="modal">Đánh giá</button>
+						<button type="button" class="btn btn-secondary"
+							data-dismiss="modal">Trở về</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		
+	</script>
+	<script type="text/javascript" th:src="@{/js/project_detail.js}"
+		src="../static/js/project_detail.js"></script>
+
+
+</body>
+</html>

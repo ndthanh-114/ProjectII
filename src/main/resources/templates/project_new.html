@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<title>Dự án</title>
+<meta charset="utf-8" />
+<th:block th:include="/_header_src"></th:block>
+
+
+</head>
+<style>
+#userInfoHeader {
+	color: white;
+	margin-right: 10px;
+	opacity: 50%;
+}
+
+#userInfoHeader:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.navbar-brand {
+	opacity: 50%;
+}
+
+.navbar-brand:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.nav-logout {
+	color: white;
+	text-decoration: none;
+	opacity: 50%;
+}
+
+.nav-logout:hover {
+	color: white;
+	opacity: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.myBtn:hover {
+	 text-decoration: underline;
+	color: #1E90FF;
+}
+
+.style-menu{
+	color:gray;
+	text-decoration: none;
+	margin: 0 3px;
+	display: block;
+}
+.style-menu:hover {
+	color:white;
+	display: block;
+	text-decoration: none;
+}
+
+</style>
+<body>
+	<th:block th:include="/_header_new"></th:block>
+	<th:block th:include="/_menu"></th:block>
+
+
+	<hr>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+
+				<div th:if="${param.trung_ten}">
+					<div class="alert alert-info text-center">
+						<strong>Dự án này đã được tạo!</strong>
+					</div>
+				</div>
+
+
+				<div th:if="${param.sai_ngay}">
+					<div class="alert alert-info text-center">
+						<strong>Ngày tạo sai!</strong>
+					</div>
+				</div>
+
+				<div th:if="${param.sai_ngay_cong_viec}">
+					<div class="alert alert-info text-center">
+						<strong>Lỗi ngày công việc!</strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="col-sm-8" style="margin: 0px 18%;">
+
+			<h2>Thêm dự án</h2>
+			<hr>
+
+
+			<form action="#" th:action="@{/admin/project/save}"
+				id="fromAddProject" th:object="${project}" method="POST">
+				<input type="hidden" th:field="*{id}">
+				<div class="form-group">
+					<label class="control-label" for="name">Tên dự án: </label> <input
+						id="name" class="form-control" th:field="*{name}"
+						th:value="nameProject" required autofocus="autofocus" />
+				</div>
+
+				<div class="form-group">
+					<label class="control-label" for="ngày tạo">Ngày tạo: </label> <input
+						type="date" id="date" class="form-control"
+						th:value="createProject" th:field="*{createDate}" required
+						autofocus="autofocus" />
+				</div>
+
+				<div class="form-group">
+					<label class="control-label" for="phone">Ngày kết thúc: </label> <input
+						id="endDate" type="date" class="form-control"
+						th:value="endProject" th:field="*{endDate}" required
+						autofocus="autofocus" />
+				</div>
+
+				<div id="detail">
+					<div class="form-group">
+						<label class="control-label" for="decription">Chi tiết
+							công việc: </label> <input id="decription" name="decription" type="text"
+							class="form-control" required autofocus="autofocus" />
+					</div>
+
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6">
+								<strong>Ngày tạo:</strong><input id="createDer" type="date"
+									class="form-control" name="createDer" required
+									autofocus="autofocus" />
+							</div>
+							<div class="col-sm-6">
+								<strong>Hạn chót: </strong><input id="endDer" type="date"
+									class="form-control" name="endDer" required
+									autofocus="autofocus" />
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="fromAddDetail"></div>
+				<div class="form-group row" style="margin: 0 auto;">
+					<input type="button" class="btn btn-info col-3"
+						id="btnDeleteDetail" style="margin: 5px 0px;" value="Xóa chi tiết" />
+					<input type="button" class="btn btn-info col-3" id="btnAddDetail"
+						style="margin: 5px 0px;" value="Thêm chi tiết" />
+
+				</div>
+
+				<div class="form-group">
+					<input type="button" class="btn btn-info col-3"
+						style="margin: 5px 0px;" value="Trờ về" onclick="clearSearch()" />
+					<button type="submit" class="btn btn-info col-3">Lưu dự án</button>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+
+				<div th:if="${param.errorMs}">
+					<div class="alert alert-info text-center">
+						<strong>Dự án này đã được tạo!</strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function clearSearch() {
+			window.location = '/admin/project';
+		}
+		var btnAddDetail;
+		var fromAddDetail;
+		var cntAddDetail = 0;
+		var btnDeleteDetail;
+
+		$(document)
+				.ready(
+						function() {
+							btnAddDetail = $("#btnAddDetail");
+							fromAddDetail = $("#fromAddDetail");
+							btnDeleteDetail =$("#btnDeleteDetail");
+						
+	
+							btnAddDetail
+									.click(function() {
+										cntAddDetail += 1;
+										$('#fromAddDetail').append(
+												"<div id='"+String(cntAddDetail)+"'><div class='form-group'><label class='control-label' for='decription'>Chi tiết công việc: </label> <input id='decription' name ='decription' type='text' class='form-control' required autofocus='autofocus' /></div><div class='form-group'><div class='row'><div class='col-sm-6'><strong>Ngày tạo:</strong><input id='createDer' type='date' class='form-control'  name ='createDer' required autofocus='autofocus' /></div><div class='col-sm-6'><strong>Hạn chót: </strong><input id='endDer' type='date' class='form-control'  name ='endDer' required autofocus='autofocus' /></div></div></div></div>");
+										
+
+									});
+							btnDeleteDetail.click(function(){
+								
+								$('div#'+String(cntAddDetail)).empty();
+								$('div#'+String(cntAddDetail)).removeAttr('id');
+								cntAddDetail-=1;
+							});
+							
+					
+				});
+						
+												
+												
+					
+	</script>
+
+</body>
+</html>

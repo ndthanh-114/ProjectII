@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<title>Dự án</title>
+<meta charset="utf-8" />
+<th:block th:include="/_header_src"></th:block>
+
+
+</head>
+<style>
+#userInfoHeader {
+	color: white;
+	margin-right: 10px;
+	opacity: 50%;
+}
+
+#userInfoHeader:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.navbar-brand {
+	opacity: 50%;
+}
+
+.navbar-brand:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.nav-logout {
+	color: white;
+	text-decoration: none;
+	opacity: 50%;
+}
+
+.nav-logout:hover {
+	color: white;
+	opacity: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.myBtn:hover {
+	text-decoration: underline;
+	color: #1E90FF;
+}
+
+.style-menu {
+	color: gray;
+	text-decoration: none;
+	margin: 0 3px;
+	display: block;
+}
+
+.style-menu:hover {
+	color: white;
+	display: block;
+	text-decoration: none;
+}
+
+.nutUpdate {
+	color: white;
+}
+
+.btnUpdateProgress:hover {
+	cursor: pointer;
+}
+</style>
+<body>
+	<th:block th:include="/_header_new"></th:block>
+	<th:block th:include="/_menu"></th:block>
+
+
+
+	<div class="container text-center">
+		<h1>Công việc của [[${nameEmp}]]</h1>
+		<h4>Tổng số công việc [[${totalTask}]]</h4>
+
+	</div>
+	<br>
+
+	<div class="container">
+		<a class="btn btn-info btnUpdateProgress" id="btnUpdateProgress"><i
+			class="fas fa-marker"></i><span class="nutUpdate"> Cập nhật
+				công việc</span> </a> <br> <br>
+		<table border="1"
+			class="table table-responsive-md table-hover text-center">
+			<thead class="thead-dark">
+				<tr>
+					<th class="text-center">Tên dự án</th>
+					<th class="text-center">Tên công việc</th>
+					<th class="text-center">Ngày bắt dầu</th>
+					<th class="text-center">Ngày kết thúc</th>
+					<th class="text-center">Tiến độ</th>
+					<th class="text-center">Được giao bởi</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="taskToEmp : ${listTaskToEmp}"
+					th:id="${taskToEmp.task.id}"
+					th:value="${taskToEmp.task.project.id}">
+					<input type="hidden" th:value="${taskToEmp.task.project.id}" />
+					<td class="cot1"><a
+						th:href="@{/rest/detail/(id=${taskToEmp.task.project.id})}"
+						class="aDetailProject">[[${taskToEmp.task.project.name}]]</a></td>
+					<td class="cot2" th:text="${taskToEmp.task.decription}"></td>
+					<td class="cot3" th:text="${taskToEmp.task.createDate}"></td>
+					<td class="cot4" th:text="${taskToEmp.task.endDate}"></td>
+					<td class="cot5"><th:block
+							th:if="${taskToEmp.task.progressTask} < 100">
+
+							<p>[[${taskToEmp.task.progressTask}]]</p>
+
+						</th:block> <th:block th:if="${taskToEmp.task.progressTask} == 100">
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Hoàn thành lúc:
+										[[${taskToEmp.task.completeDate}]]</i></strong>
+							</p>
+						</th:block> <th:block th:if="${taskToEmp.task.progressTask} == 101">
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Hoàn thành lúc:
+										[[${taskToEmp.task.completeDate}]]</i></strong>
+							</p>
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Đánh giá: Kém</i></strong>
+							</p>
+
+						</th:block> <th:block th:if="${taskToEmp.task.progressTask} == 102">
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Hoàn thành lúc:
+										[[${taskToEmp.task.completeDate}]]</i></strong>
+							</p>
+							<p style="font-size: 1vw; color: red;">
+								<strong><i>Đánh giá: Tốt</i></strong>
+							</p>
+
+						</th:block></td>
+					<td class="cot6" th:text="${taskToEmp.modifyBy.name}"></td>
+
+
+
+				</tr>
+			</tbody>
+		</table>
+
+		<!--modal-->
+
+		<div class="myForm">
+			<form th:action="@{/rest/user/detalProject}" method="POST">
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Chi tiết</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<div class="form-group">
+									<label for="nameProject" class="col-form-label">Tên dự
+										án:</label> <label id="nameProject" class="col-form-label"></label> <select
+										id="chooseProjectDropDown" class="form-control">
+
+									</select>
+								</div>
+								<div class="form-group" id="listNameTask">
+									<label for="nameTask" class="col-form-label">Tên công
+										việc:</label> <label id="nameTask" class="col-form-label"></label> <select
+										id="chooseTaskDropDown" class="form-control">
+
+									</select>
+
+								</div>
+								<div class="form-group">
+									<label for="LabelrogressTask" class="col-form-label">Tiến
+										độ:</label> <label id="nameTask" class="col-form-label"></label> <select
+										id="chooseProgressDropDown" class="form-control">
+										<option value=0>0</option>
+										<option value=10>10</option>
+										<option value=20>20</option>
+										<option value=30>30</option>
+										<option value=40>40</option>
+										<option value=50>50</option>
+										<option value=60>60</option>
+										<option value=70>70</option>
+										<option value=80>80</option>
+										<option value=90>90</option>
+										<option value=100>100</option>
+									</select>
+
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary btnClose"
+									data-dismiss="modal">Close</button>
+								<input type="submit" id="btnUpdateTask" class="btn btn-primary"
+									data-dismiss="modal" value="Cập nhật">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<div class="myFormDetail">
+			<form>
+				<div class="modal fade" id="detailProject" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Chi tiết dự
+									án</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<div class="form-group">
+									<label for="detailNameProject" class="col-form-label"><strong>Tên
+										dự án:</strong></label> <label id="detailNameProject" class="col-form-label"></label>
+
+
+								</div>
+
+								<div class="form-group">
+									<label for="detailCreateProject" class="col-form-label"><strong>Ngày
+										tạo dự án:</strong></label> <label id="detailCreateProject"
+										class="col-form-label"></label>
+
+
+								</div>
+								<div class="form-group">
+									<label for="detailEndProject" class="col-form-label"><strong>Ngày
+										cuối dự án:</strong></label> <label id="detailEndProject"
+										class="col-form-label"></label>
+
+
+								</div>
+								<div class="form-group">
+									<label for="managerBy" class="col-form-label"><strong>Quản lý
+										bởi:</strong></label>
+									<div>
+										<label id="managerBy" class="col-form-label"></label>
+									</div>
+
+								</div>
+								<div class="form-group">
+									<label for="Danh sách công việc" class="col-form-label"><strong>Danh
+										sách công việc:</strong></label>
+									<div>
+										<label id="listTask" class="col-form-label"></label>
+									</div>
+
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary btnCloseDetail"
+									data-dismiss="modal">Đóng</button>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+		
+	</script>
+	<script type="text/javascript" th:src="@{/js/user.js}"
+		src="../static/js/user.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>Đăng ký</title>
+<meta charset="utf-8" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Quản lý công
+					việc</a>
+			</div>
+			
+		</div>
+	</nav>
+
+	<br>
+	<br>
+	<br>
+	<br>
+	<!-- Create HTML registration form -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+
+				<!-- success message -->
+				<div th:if="${param.success}">
+					<div class="alert alert-info">Bạn dã đăng ký tài khoản thành
+						công!</div>
+				</div>
+
+				<div th:if="${param.errorMessage}">
+					<div class="alert alert-info">Tài khoản đã được đăng ký!</div>
+				</div>	
+				
+				<h1>Đăng ký tài khoản</h1>
+
+				<form th:action="@{/registration}" method="POST"
+					th:object="${employee}">
+					<div class="form-group">
+						<label class="control-label" for="name"> Nhập tên: </label> <input
+							id="name" class="form-control" th:field="*{name}" required
+							autofocus="autofocus" />
+					</div>
+
+					<div class="form-group">
+						<label class="control-label" for="email"> Nhập Email: </label> <input
+						type="email" id="email" class="form-control" th:field="*{email}" required
+							autofocus="autofocus" />
+					</div>
+
+					<div class="form-group">
+						<label class="control-label" for="phone"> Nhập số điện
+							thoại: </label> <input id="phone" class="form-control" type="number"
+							th:field="*{phone}" required autofocus="autofocus" />
+					</div>
+
+					<div class="form-group">
+						<label class="control-label" for="password"> Nhập mật khẩu
+						</label> <input id="password" class="form-control" type="password"
+							th:field="*{password}" required autofocus="autofocus" />
+					</div>
+					
+					<p>Chọn quyền của bạn:</p>
+					<input type="radio" id="user" name="emp" value="ROLE_USER" th:field="*{role}" checked> 
+					<label
+						for="user">User</label><br>   
+					<input type="radio" id="admin" th:field="*{role}"
+						name="emp" value="ROLE_ADMIN"> <label for="admin">Admin</label><br>
+
+					<div class="form-group">
+						<button type="submit" class="btn btn-success">Đăng ký</button>
+
+						<span>Bạn đã đăng ký rồi? <a href="/" th:href="@{/login}">Đăng
+								nhập</a></span>
+					</div>
+					<div th:if="${error}">
+						<div class="alert alert-info">Email thất bại!!!</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

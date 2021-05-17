@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<title>Dự án</title>
+<meta charset="utf-8" />
+<th:block th:include="/_header_src"></th:block>
+
+
+</head>
+<style>
+#userInfoHeader {
+	color: white;
+	margin-right: 10px;
+	opacity: 50%;
+}
+
+#userInfoHeader:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.navbar-brand {
+	opacity: 50%;
+}
+
+.navbar-brand:hover {
+	opacity: 100%;
+	cursor: pointer;
+}
+
+.nav-logout {
+	color: white;
+	text-decoration: none;
+	opacity: 50%;
+}
+
+.nav-logout:hover {
+	color: white;
+	opacity: 100%;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.myBtn:hover {
+	 text-decoration: underline;
+	color: #1E90FF;
+}
+
+.style-menu{
+	color:gray;
+	text-decoration: none;
+	margin: 0 3px;
+	display: block;
+}
+.style-menu:hover {
+	color:white;
+	display: block;
+	text-decoration: none;
+}
+
+</style>
+<body>
+	<th:block th:include="/_header_new"></th:block>
+	<th:block th:include="/_menu"></th:block>
+
+
+	<div class="container text-center">
+		<h1>Các chức năng của dự án</h1>
+		<a class="h2 col-sm-6 myBtn" th:href="@{/admin/project/create}">Tạo dự
+			án</a> <input style= "border:none;" type = "button" class="h2 text-primary myBtn"   id = "btnTaskToEmp" value = "Giao việc">
+	</div>
+	<br>
+	<div class="container">
+
+		<div
+			style="width: 50%; margin: 0 auto; border-radius: 5px; background-color: blue;">
+			<form th:action="@{/admin/project/}">
+				<input type="text" class="form-control" name="keyword"
+					th:value="${keyword}" placeholder="Tìm dự án" /> <input
+					type="submit" class="btn btn-primary btn-sm mb-3"
+					style="margin: 5px 5px; float: right" value="Tìm kiếm" /> <input
+					type="button" class="btn btn-primary btn-sm mb-3"
+					style="margin: 5px 0px; float: right;" value="Clear"
+					onclick="clearSearch()" />
+			</form>
+		</div>
+		<br> <br> <br>
+		<table border="1"
+			class="table table-striped table-responsive-md text-center">
+			<thead class="thead-dark">
+				<tr>
+					<th class="text-center">Tên dự án</th>
+					<th class="text-center">Ngày tạo</th>
+					<th class="text-center">Ngày kết thúc</th>
+					<th class="text-center">Số lượng công việc</th>
+					<th class="text-center">Công việc hoàn thành</th>
+					<th class="text-center">Hành động</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="project : ${projects}">
+
+					<td><a
+						th:href="@{/admin/project/detail/{id}(id=${project.id})}"
+						th:value="${project.name}">[[${project.name}]]</a>
+					<td th:text="${project.createDate}"></td>
+					<td th:text="${project.endDate}"></td>
+					<td th:text="${project.tong}"</td>
+					<td th:text="${project.daHoanThanh}"</td>
+					<td><a
+						th:href="@{/admin/project/update/{id}(id=${project.id})}"
+						class="btn btn-primary">Sửa</a> <a
+						th:href="@{/admin/project/delete/{id}(id=${project.id})}"
+						class="btn btn-danger">Xóa</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="formTaskToEmp">
+			<form>
+				<div class="modal fade" id="projectModal" tabindex="-1"
+					role="dialog" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="projectName">Giao công việc</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+
+								<div class="form-group">
+									<label for="chooseProjectDropDown" class="col-form-label">Chọn
+										dự án:</label> <select id="chooseProjectDropDown" class="form-control">
+
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="chooseTaskDropDown" class="col-form-label">Chọn
+										công việc:</label> 
+									<select id="chooseTaskDropDown" class="form-control">
+
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label for="chooseEmpDropDown" class="col-form-label">Chọn
+										nhân viên:</label> <select id="chooseEmpDropDown" class="form-control">
+
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="textEmailEmployee" class="col-form-label">Email
+										nhân viên:</label> <label id="textEmailEmployee" class="col-form-label"></label>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Close</button>
+								<input type="submit" id="btnTaskToEmployee"
+									class="btn btn-primary" data-dismiss="modal" value="Giao việc">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+	</div>
+	<script type="text/javascript">
+		function clearSearch() {
+			window.location = '/admin/project';
+		}
+	</script>
+
+	<script type="text/javascript" th:src="@{/js/project.js}"
+		src="../static/js/project.js"></script>
+</body>
+</html>

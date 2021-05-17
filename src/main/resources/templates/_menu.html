@@ -1,0 +1,51 @@
+<div class="header-container" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<!-- 	<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+		<a th:href="@{/admin/project}"> Quản lý dự án </a>
+      |
+   </th:block>
+   
+  
+   
+	<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+		<a th:href="@{/admin/managerEmployee}"> Quản lý nhân viên </a>
+      |
+   </th:block>
+   <th:block sec:authorize="hasAnyRole('ROLE_USER')">
+		<a th:href="@{/employee/updateProject}"> Cập nhật tiến độ </a>
+      |
+   </th:block>
+	<th:block sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"><a th:href="@{/userInfo}"> Thông tin cá nhân </a> |</th:block> -->
+
+	<nav class="navbar navbar-light bg-light">
+		<form class="form-inline">
+		<th:block sec:authorize="hasRole('ROLE_ADMIN')">
+			<button class="btn btn-outline-success style-menu" type="button">
+				
+					<a th:href="@{/admin/project}" class = "style-menu"> Quản lý dự án </a>
+				
+			</button>
+			</th:block>
+			<th:block sec:authorize="hasAnyRole('ROLE_ADMIN')">
+			<button class="btn btn-outline-success style-menu" type="button">
+				
+					<a th:href="@{/admin/managerEmployee}" class = "style-menu"> Quản lý nhân viên </a>
+				
+			</button>
+			</th:block>
+			<th:block sec:authorize="hasAnyRole('ROLE_USER')">
+			<button class="btn btn-outline-success style-menu" type="button">
+				
+					<a th:href="@{/employee/updateProject}" class = "style-menu"> Cập nhật tiến độ </a>
+   				
+			</button>
+			</th:block>
+			<th:block sec:authorize="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+			<button class="btn btn-outline-success style-menu" type="button">
+				<a th:href="@{/userInfo}" class = "style-menu"> Thông tin cá nhân </a> 
+			</button>
+			</th:block>
+		</form>
+	</nav>
+
+</div>
