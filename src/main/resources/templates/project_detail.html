@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 
-<title>Dự án</title>
+<title>Chi tiết dự án</title>
 <meta charset="utf-8" />
 <th:block th:include="/_header_src"></th:block>
 
@@ -44,22 +44,22 @@
 }
 
 .myBtn:hover {
-	 text-decoration: underline;
+	text-decoration: underline;
 	color: #1E90FF;
 }
 
-.style-menu{
-	color:gray;
+.style-menu {
+	color: gray;
 	text-decoration: none;
 	margin: 0 3px;
 	display: block;
 }
+
 .style-menu:hover {
-	color:white;
+	color: white;
 	display: block;
 	text-decoration: none;
 }
-
 </style>
 <body>
 	<th:block th:include="/_header_new"></th:block>
@@ -98,7 +98,7 @@
 					<td th:text="${task.createDate}"></td>
 					<td th:text="${task.endDate}"></td>
 
-					<td class= "cot5"><th:block th:if="${task.progressTask} < 100">
+					<td class="cot5"><th:block th:if="${task.progressTask} < 100">
 
 							<p>[[${task.progressTask}]]</p>
 
@@ -118,7 +118,7 @@
 							<p style="font-size: 1vw; color: red;">
 								<strong><i>Đánh giá: Kém</i></strong>
 							</p>
-							
+
 						</th:block> <th:block th:if="${task.progressTask} == 102">
 							<p style="font-size: 1vw; color: red;">
 								<strong><i>Hoàn thành lúc: [[${task.completeDate}]]</i></strong>
@@ -147,6 +147,21 @@
 				</tr>
 			</tbody>
 		</table>
+
+
+		<div th:if="${totalPages > 1}">
+			<div class="row col-sm-12">
+				<div class="col-sm-2">Tổng công việc: [[${totalItems}]]</div>
+				<div class="col-sm-10">
+					<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+						th:if="${currentPage != i}" th:href="@{'/admin/project/detail/' + ${project.id}+'/'+${i}}">[[${i}]]</a>
+						<span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
+					</span>
+				</div>
+			</div>
+
+		</div>
+
 
 		<!--modal-->
 
@@ -248,17 +263,18 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<p id = "danhGiaCuaToiBad"></p>
+						<p id="danhGiaCuaToiBad"></p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id = "saveUpdateBad" data-dismiss="modal">Đánh giá</button>
+						<button type="button" class="btn btn-primary" id="saveUpdateBad"
+							data-dismiss="modal">Đánh giá</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Trở về</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="modal myDanhGiaGood" tabindex="-1" role="dialog">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -270,10 +286,11 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<p id = "danhGiaCuaToiGood"></p>
+						<p id="danhGiaCuaToiGood"></p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id = "saveUpdateGood" data-dismiss="modal">Đánh giá</button>
+						<button type="button" class="btn btn-primary" id="saveUpdateGood"
+							data-dismiss="modal">Đánh giá</button>
 						<button type="button" class="btn btn-secondary"
 							data-dismiss="modal">Trở về</button>
 					</div>

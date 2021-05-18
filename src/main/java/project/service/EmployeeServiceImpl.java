@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -101,6 +102,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 		
 		
 		return rs;
+	}
+
+	@Override
+	public Page<Employee> pageAdminEmployee(String keyword, String role, Pageable pageable) {
+		if(keyword!=null) {
+			return empRepo.pageEmployee(keyword, role, pageable);
+		}
+		return empRepo.findByRole(role, pageable);
 	}
 
 	

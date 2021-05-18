@@ -40,6 +40,7 @@ $(document).ready(function() {
 			
 			$.each(responseJson.mofidyBy, function(index, cc) {
 				managerBy.append("<div>" +cc + "</div>");
+				console.log("Admin: " + cc);
 				
 
 			});

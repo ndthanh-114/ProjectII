@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -44,13 +47,28 @@ public class EmployeeController {
 	private EmployeeRepository empRepo;
 
 	@RequestMapping("/admin/managerEmployee")
-	public String viewListEmployees(Model model, @Param("keyword") String keyword) {
-		List<Employee> users = empService.searchEmployee(keyword, "ROLE_USER");
-		System.out.println(users.size());
-
+	public String viewEmployeeHome(Model model, @Param("keyword") String keyword) {
+		return viewListEmployees(model, keyword, 1);
+	}
+	
+	@RequestMapping("/admin/managerEmployee/{pageNo}")
+	public String viewListEmployees(Model model, @Param("keyword") String keyword, @PathVariable(value = "pageNo")int pageNo) {
+//		List<Employee> users = empService.searchEmployee(keyword, "ROLE_USER");
+//		
+//		System.out.println(users.size());
+//
+//		model.addAttribute("users", users);
+//		model.addAttribute("keyword", keyword);
+		Integer pageSize = 4;
+		Pageable pageable = PageRequest.of(pageNo -1 , pageSize);
+		Page<Employee> pages = empService.pageAdminEmployee(keyword, "ROLE_USER", pageable);
+		List<Employee> users = pages.getContent();
+		System.out.println("Size emp: "+ users.size());
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", pages.getTotalPages());
+		model.addAttribute("totalItems", pages.getTotalElements());
 		model.addAttribute("users", users);
 		model.addAttribute("keyword", keyword);
-//		return findPaginated(1, "name", "asc", model);
 		return "/admin_managerEmployee";
 	}
 

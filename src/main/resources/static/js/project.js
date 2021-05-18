@@ -7,6 +7,7 @@ var btnTaskToEmployee;
 var projectID = 0;
 var taskID = 0;
 var emailEmp;
+var defaultEmp = null;
 var textEmailEmployee;
 
 $(document).ready(function() {
@@ -47,15 +48,22 @@ $(document).ready(function() {
 
 
 	});
-
+	$('.BtnClose').click(function(){
+		projectID = 0;
+		chooseProjectDropDown.empty();
+		chooseTaskDropDown.empty();
+		btnTaskToEmployee.empty();
+		console.log("click close");
+	});
 });
 
 async function giaoNhiemVu() {
+	projectID = $('#chooseProjectDropDown').val();
 	taskID = $("#chooseTaskDropDown option:selected").val();
 	emailEmp = $("#chooseEmpDropDown option:selected").val();
 	console.log("Ban chon task ID: " + taskID);
 	console.log("Ban chon EMP : " + emailEmp);
-	if (typeof taskID === 'undefined' || typeof emailEmp === 'undefined')
+	if (typeof taskID === 'undefined'|| taskID == null || emailEmp == null || typeof emailEmp === 'undefined' || projectID == null || typeof projectID === 'undefined')
 		alert("Kiểm tra lại thông tin")
 	else {
 
@@ -98,7 +106,11 @@ function loadEmployee() {
 		
 		$.each(responseJson, function(index, employee) {
 			$("<option>").val(employee.email).text(employee.name).appendTo(chooseEmpDropDown);
+			if(index == 0)
+				defaultEmp = employee.email;
+				
 		});
+		textEmailEmployee.text(defaultEmp);
 	}).done(function() {
 
 	}).fail(function() {
@@ -116,7 +128,7 @@ function taskToEmp() {
 		$.each(responseJson, function(index, projectDTO) {
 
 			$("<option>").val(projectDTO.id).text(projectDTO.name).appendTo(chooseProjectDropDown);
-
+			
 		});
 
 

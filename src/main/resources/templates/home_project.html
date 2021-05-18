@@ -117,6 +117,40 @@
 				</tr>
 			</tbody>
 		</table>
+		
+		<div th:if="${keyword == null}">
+			<div th:if="${totalPages > 1}">
+				<div class="row col-sm-12">
+					<div class="col-sm-2">Tổng dự án: [[${totalItems}]]</div>
+					<div class="col-sm-10">
+						<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+							th:if="${currentPage != i}"
+							th:href="@{'/admin/project/' + ${i}}">[[${i}]]</a> <span
+							th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
+						</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div th:unless="${keyword == null}">
+			<div th:if="${totalPages > 1}">
+				<div class="row col-sm-12">
+					<div class="col-sm-2">Tổng dự án: [[${totalItems}]]</div>
+					<div class="col-sm-10">
+						<span th:each="i: ${#numbers.sequence(1, totalPages )}"> <a
+							th:if="${currentPage != i}"
+							th:href="@{'/admin/project/' + ${i} +'/?keyword='+${keyword}}">[[${i}]]</a> <span
+							th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
+						</span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+		
 		<div class="formTaskToEmp">
 			<form>
 				<div class="modal fade" id="projectModal" tabindex="-1"
@@ -160,7 +194,7 @@
 
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
+								<button type="button" class="btn btn-secondary BtnClose" 
 									data-dismiss="modal">Close</button>
 								<input type="submit" id="btnTaskToEmployee"
 									class="btn btn-primary" data-dismiss="modal" value="Giao việc">

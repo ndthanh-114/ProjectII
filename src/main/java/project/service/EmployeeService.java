@@ -3,6 +3,9 @@ package project.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import project.entity.Employee;
@@ -15,4 +18,5 @@ public interface EmployeeService extends UserDetailsService{
 	List<DetailEmployeeDTO> detaiEmployee(Integer id);
 	
 	
+	Page<Employee> pageAdminEmployee(String keyword, String role, Pageable pageable);
 }

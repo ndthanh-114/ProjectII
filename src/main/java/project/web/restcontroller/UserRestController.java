@@ -66,7 +66,7 @@ public class UserRestController {
 				if (!check.contains(t.getProject().getId())) {
 					check.add(t.getProject().getId());
 					ProjectDTO pjDTO = new ProjectDTO(t.getProject().getId(), t.getProject().getName());
-
+					
 					rs.add(pjDTO);
 				}
 			}
@@ -85,7 +85,7 @@ public class UserRestController {
 
 		for (TaskToEmployee tte : listTask) {
 			Task t = tte.getTask();
-			if (t.getProject().getId() == projectID) {
+			if (t.getProject().getId() == projectID && !(t.getProgressTask() == 101 || t.getProgressTask() == 102)) {
 				rs.add(new UserTaskDTO(t.getId(), t.getDecription(), t.getProgressTask()));
 			}
 

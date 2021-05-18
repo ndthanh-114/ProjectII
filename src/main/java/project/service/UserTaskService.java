@@ -51,17 +51,25 @@ public class UserTaskService {
 			TaskDTO taskDTO = new TaskDTO(t.getId(), t.getDecription());
 			tasks.add(taskDTO);
 			for(TaskToEmployee tte: t.getTask_to_employee()) {
-				Boolean check = true;
+				
 				if(modifyBy.size() == 0 || modifyBy == null) {
 					modifyBy.add(tte.getModifyBy().getEmail());
+					
 				}else {
-					for(String mb: modifyBy) {
-						if(!(mb.equals(tte.getModifyBy().getEmail())))
-							modifyBy.add(tte.getModifyBy().getEmail());
+					Boolean check = true;
+					for(int j = 0 ;j< modifyBy.size();j++) {
+						if((modifyBy.get(j).equals(tte.getModifyBy().getEmail()))) {
+							check = false;
+							
+						}
 					}
+					if(check)
+						modifyBy.add(tte.getModifyBy().getEmail());
 				}
 			}
 		}
+		
+		
 		return new UserProjectDetailDTO(project.getName(), project.getCreateDate(), project.getEndDate(), tasks, modifyBy);
 	}
 }
