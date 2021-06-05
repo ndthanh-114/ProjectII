@@ -26,6 +26,8 @@ public interface TaskRepository extends JpaRepository<Task, Integer>{
 	
 	Optional<Task> findById(Integer id);
 	
+	
+	@Query("SELECT t FROM Task t WHERE t.project = ?1 ORDER BY t.decription")
 	List<Task> findByProject(Project project);
 	
 	

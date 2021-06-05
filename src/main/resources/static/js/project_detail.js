@@ -28,7 +28,7 @@ $(document).ready(function() {
 	delEmailEmployee = $('#delEmailEmployee');
 	labelDelModifyBy = $('#labelDelModifyBy');
 	btnDelTaskToEmployee = $('#btnDelTaskToEmployee');
-
+	
 	btnDelAllOfTask = $('#btnDelAllOfTask');
 	btnBad = $('#btnBad');
 	btnGood = $('#btnGood');
@@ -59,8 +59,12 @@ $(document).ready(function() {
 			console.log(taskID);
 
 			$('.myFormDel #delModal').modal();
-
+			var totalNow = $("#totalTaskNav").val();
+			//console.log("task now: "+ totalNow);
 			searchTask();
+			
+			//phan them moi
+			
 
 		});
 	});
@@ -74,14 +78,14 @@ $(document).ready(function() {
 	});
 
 	btnDelTaskToEmployee.click(function() {
-
+		
 		delEmployeeOutTask();
 	});
 
 
 
 	btnDelAllOfTask.click(function() {
-
+		
 		deleteTask();
 
 
@@ -219,6 +223,15 @@ async function deleteTask() {
 			var trID = '#' + tmp;
 			console.log(trID);
 			$('.table ' + trID).remove();
+			
+			
+			var totalRow = $('#totalNowTaskNav').text();
+			console.log("task row: "+ totalRow);
+			var deletedSucess = Number(totalRow) -1;
+			console.log("task new total row: " + deletedSucess);
+			 $('#totalNowTaskNav').empty();
+			 $('#totalNowTaskNav').append(deletedSucess);
+			
 			alert("Xóa toàn bộ công việc thành công");
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -262,7 +275,9 @@ async function delEmployeeOutTask() {
 				$('tbody ' + rowClass).append('<div>' + modifyBy.name + '</div>');
 				console.log(modifyBy.name);
 			});
-			alert("Xoa cong viec thanh cong");
+			
+
+			alert("Xóa nhân viên thành công");
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
 
@@ -362,7 +377,7 @@ async function taskToEmployee() {
 				//				$('tbody ' + rowID + ' div').append("<input name = 'emailNhanVien"+  "' type = 'hidden' value = '"+ empSelected + "' />");
 				var rowClass = '.' + taskID;
 				$('tbody ' + rowClass).append('<div>' + data + '</div>');
-				alert("Done");
+				alert("Thành công");
 			}
 			else
 				alert("Giao việc thất bại nhân viên đã có trong công việc");

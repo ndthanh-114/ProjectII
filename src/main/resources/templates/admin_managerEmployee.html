@@ -76,13 +76,14 @@
 
 
 	<div class="container my-2">
-
-		<h1>Danh sách nhân viên</h1>
-		<a th:href="@{/admin/managerEmployee/showNewEmployeeForm}"
-			class="btn btn-primary btn-sm mb-3" style="float: right">Thên
-			nhân viên</a>
-		<div class="col-sm-5" style="margin-left: -15px;">
-			<form th:action="@{/admin/managerEmployee/}">
+		
+			<h1 class = "text-center">Danh sách nhân viên</h1>
+			<div class= "col-12" style = "z-index: 3"><a th:href="@{/admin/managerEmployee/showNewEmployeeForm}"
+				class="btn btn-primary btn-sm mb-3" style="float: right">Thêm
+				nhân viên</a></div>
+		
+		<div class="col-sm-6" style="margin-left: -15px;">
+			<form th:action="@{/admin/managerEmployee/}" >
 				<input type="text" class="form-control" name="keyword"
 					th:value="${keyword}"
 					placeholder="Tìm theo tên, email, số điện thoại" /> <input
@@ -92,6 +93,7 @@
 					style="margin: 5px 0px; float: right;" value="Clear"
 					onclick="clearSearch()" />
 			</form>
+
 		</div>
 
 		<table border="1"
@@ -113,7 +115,7 @@
 						class="aDetailEmployee">[[${employee.name}]]</a></td>
 					<td th:text="${employee.email}"></td>
 					<td th:text="${employee.phone}"></td>
-					<td><a
+					<td><a style="margin: 2px;"
 						th:href="@{/admin/managerEmployee/showFormatForUpdate/{id}(id=${employee.id})}"
 						class="btn btn-primary">Sửa</a> <a
 						th:href="@{/admin/managerEmployee/deleteEmployee/{id}(id=${employee.id})}"
@@ -147,8 +149,9 @@
 					<div class="col-sm-10">
 						<span th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
 							th:if="${currentPage != i}"
-							th:href="@{'/admin/managerEmployee/' + ${i} +'/?keyword='+${keyword}}">[[${i}]]</a> <span
-							th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
+							th:href="@{'/admin/managerEmployee/' + ${i} +'/?keyword='+${keyword}}">[[${i}]]</a>
+							<span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp;
+							&nbsp;
 						</span>
 					</div>
 				</div>

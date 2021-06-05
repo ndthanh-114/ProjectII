@@ -83,9 +83,13 @@
 	<br>
 
 	<div class="container">
-		<a class="btn btn-info btnUpdateProgress" id="btnUpdateProgress"><i
-			class="fas fa-marker"></i><span class="nutUpdate"> Cập nhật
-				công việc</span> </a> <br> <br>
+		<div class="row">
+				
+				<a style="margin: 0 1vw;" class="btn btn-info btnUpdateProgress" id="btnUpdateProgress"><i
+				class="fas fa-marker"></i><span class="nutUpdate"> Cập nhật
+					công việc</span> </a>
+		</div>
+		<br>
 		<table border="1"
 			class="table table-responsive-md table-hover text-center">
 			<thead class="thead-dark">
@@ -147,20 +151,20 @@
 			</tbody>
 		</table>
 		<div th:if="${totalPages > 1}">
-				<div class="row col-sm-12">
-					<div class="col-sm-2">Tổng công việc: [[${totalItems}]]</div>
-					<div class="col-sm-10">
-						<span th:each="i: ${#numbers.sequence(1, totalPages )}"> <a
-							th:if="${currentPage != i}"
-							th:href="@{'/employee/updateProject/' + ${i}}">[[${i}]]</a> <span
-							th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
-						</span>
-					</div>
+			<div class="row col-sm-12">
+				<div class="col-sm-2">Tổng công việc: [[${totalItems}]]</div>
+				<div class="col-sm-10">
+					<span th:each="i: ${#numbers.sequence(1, totalPages )}"> <a
+						th:if="${currentPage != i}"
+						th:href="@{'/employee/updateProject/' + ${i}}">[[${i}]]</a> <span
+						th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
+					</span>
 				</div>
-
 			</div>
-		<!--modal-->
 
+		</div>
+		<!--modal-->
+		<hr>
 		<div class="myForm">
 			<form th:action="@{/rest/user/detalProject}" method="POST">
 				<div class="modal fade" id="exampleModal" tabindex="-1"
@@ -243,28 +247,28 @@
 
 								<div class="form-group">
 									<label for="detailNameProject" class="col-form-label"><strong>Tên
-										dự án:</strong></label> <label id="detailNameProject" class="col-form-label"></label>
+											dự án:</strong></label> <label id="detailNameProject" class="col-form-label"></label>
 
 
 								</div>
 
 								<div class="form-group">
 									<label for="detailCreateProject" class="col-form-label"><strong>Ngày
-										tạo dự án:</strong></label> <label id="detailCreateProject"
+											tạo dự án:</strong></label> <label id="detailCreateProject"
 										class="col-form-label"></label>
 
 
 								</div>
 								<div class="form-group">
 									<label for="detailEndProject" class="col-form-label"><strong>Ngày
-										cuối dự án:</strong></label> <label id="detailEndProject"
+											cuối dự án:</strong></label> <label id="detailEndProject"
 										class="col-form-label"></label>
 
 
 								</div>
 								<div class="form-group">
-									<label for="managerBy" class="col-form-label"><strong>Quản lý
-										bởi:</strong></label>
+									<label for="managerBy" class="col-form-label"><strong>Quản
+											lý bởi:</strong></label>
 									<div>
 										<label id="managerBy" class="col-form-label"></label>
 									</div>
@@ -272,7 +276,7 @@
 								</div>
 								<div class="form-group">
 									<label for="Danh sách công việc" class="col-form-label"><strong>Danh
-										sách công việc:</strong></label>
+											sách công việc:</strong></label>
 									<div>
 										<label id="listTask" class="col-form-label"></label>
 									</div>

@@ -10,6 +10,7 @@ var managerBy;
 var detailCreateProject;
 var detailEndProject;
 var listTask;
+var filterTask;
 $(document).ready(function() {
 	btnUpdateProgress = $('#btnUpdateProgress');
 	chooseProjectDropDown = $('#chooseProjectDropDown');
@@ -18,6 +19,7 @@ $(document).ready(function() {
 
 	btnUpdateTask = $('#btnUpdateTask');
 	btnClose = $('.btnClose');
+	filterTask = $('#filterTask');
 	detailNameProject = $('#detailNameProject');
 	managerBy = $('#managerBy');
 	listTask = $('#listTask');
@@ -27,7 +29,7 @@ $(document).ready(function() {
 		event.preventDefault();
 		var href = $(this).attr('href');
 		$('.myFormDetail #detailProject').modal();
-			
+
 		$.get(href, function(responseJson) {
 			detailNameProject.empty();
 			managerBy.empty();
@@ -37,21 +39,21 @@ $(document).ready(function() {
 			detailNameProject.text(responseJson.projectName);
 			detailCreateProject.append(responseJson.createDate);
 			detailEndProject.append(responseJson.createEnd);
-			
+
 			$.each(responseJson.mofidyBy, function(index, cc) {
-				managerBy.append("<div>" +cc + "</div>");
+				managerBy.append("<div>" + cc + "</div>");
 				console.log("Admin: " + cc);
-				
+
 
 			});
-			
+
 			$.each(responseJson.tasks, function(index, task) {
-				listTask.append("<div>" +task.name + "</div>");
-				
+				listTask.append("<div>" + task.name + "</div>");
+
 
 			});
-			
-			
+
+
 		}).done(function() {
 
 		}).fail(function() {
@@ -76,6 +78,8 @@ $(document).ready(function() {
 	chooseProjectDropDown.on("change", function() {
 		loadTask();
 	});
+
+
 
 	btnClose.click(function() {
 		projectID = 0;

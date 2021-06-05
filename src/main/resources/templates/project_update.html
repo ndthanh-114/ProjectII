@@ -44,22 +44,22 @@
 }
 
 .myBtn:hover {
-	 text-decoration: underline;
+	text-decoration: underline;
 	color: #1E90FF;
 }
 
-.style-menu{
-	color:gray;
+.style-menu {
+	color: gray;
 	text-decoration: none;
 	margin: 0 3px;
 	display: block;
 }
+
 .style-menu:hover {
-	color:white;
+	color: white;
 	display: block;
 	text-decoration: none;
 }
-
 </style>
 <body>
 	<th:block th:include="/_header_new"></th:block>
@@ -68,30 +68,30 @@
 
 	<hr>
 	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
+		<div class="col-sm-8" style="margin: 0px 18%;">
 
-				<div th:if="${param.trung_ten}">
-					<div class="alert alert-info text-center">
-						<strong>Tên vừa thay đổi đã bị trùng!</strong>
-					</div>
+
+			<div th:if="${param.trung_ten}">
+				<div class="alert alert-info text-center">
+					<strong>Tên vừa thay đổi đã bị trùng!</strong>
 				</div>
-
-
-				<div th:if="${param.sai_ngay}">
-					<div class="alert alert-info text-center">
-						<strong>Ngày dự án sai!</strong>
-					</div>
-				</div>
-				<div th:if="${param.chi_tiet_sai}">
-					<div class="alert alert-info text-center">
-						<strong>Ngày chi tiết dự án sai <th:block
-								th:value="${stt}"></th:block> !
-						</strong>
-					</div>
-				</div>
-
 			</div>
+
+
+			<div th:if="${param.sai_ngay}">
+				<div class="alert alert-info text-center">
+					<strong>Ngày dự án sai!</strong>
+				</div>
+			</div>
+			<div th:if="${param.chi_tiet_sai}">
+				<div class="alert alert-info text-center">
+					<strong>Ngày chi tiết dự án sai <th:block
+							th:value="${stt}"></th:block> !
+					</strong>
+				</div>
+			</div>
+
+
 		</div>
 	</div>
 	<div class="container">
@@ -191,9 +191,9 @@
 			window.location = '/admin/project';
 		}
 		function addUpdateDetail() {
-			$('#fromAddUpdateDetail').append(
-					"<div class='form-group'><label class='control-label' for='decription'>Chi tiết công việc: </label> <input id='decription' name ='decription' type='text' class='form-control' required autofocus='autofocus' /></div><div class='form-group'><div class='row'><div class='col-sm-6'><strong>Ngày tạo:</strong><input id='createDer' type='date' class='form-control'  name ='createDer' required autofocus='autofocus' /></div><div class='col-sm-6'><strong>Hạn chót: </strong><input id='endDer' type='date' class='form-control'  name ='endDer' required autofocus='autofocus' /></div></div></div></div>");
-			
+			$('#fromAddUpdateDetail')
+					.append(
+							"<div class='form-group'><label class='control-label' for='decription'>Chi tiết công việc: </label> <input id='decription' name ='decription' type='text' class='form-control' required autofocus='autofocus' /></div><div class='form-group'><div class='row'><div class='col-sm-6'><strong>Ngày tạo:</strong><input id='createDer' type='date' class='form-control'  name ='createDer' required autofocus='autofocus' /></div><div class='col-sm-6'><strong>Hạn chót: </strong><input id='endDer' type='date' class='form-control'  name ='endDer' required autofocus='autofocus' /></div></div></div></div>");
 
 		}
 	</script>

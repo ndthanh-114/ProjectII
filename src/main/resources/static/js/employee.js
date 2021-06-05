@@ -2,6 +2,7 @@ var oneTaskEmp;
 var danhMuc;
 var totalTask;
 var dem=0;
+var hoanThanh = 0;
 $(document).ready(function() {
 	oneTaskEmp = $('#oneTaskEmp');
 	danhMuc = $('#danhMuc');
@@ -13,6 +14,7 @@ $(document).ready(function() {
 			
 		$.get(href, function(responseJson) {
 			dem = 0;
+			hoanThanh = 0;
 			danhMuc.empty();
 			oneTaskEmp.empty();
 			$.each(responseJson, function(index, detailEmployee) {
@@ -21,14 +23,17 @@ $(document).ready(function() {
 				if(detailEmployee.progress <= 100){
 					danhMuc.append("<div class='form-group classProgress'><label for='progressProject' class='col-form-label'>Tiến độ:</label> <label id='progressProject' class='col-form-label'>" +detailEmployee.progress + "</label></div>");
 				}else if(detailEmployee.progress == 101){
+					hoanThanh ++;
 					danhMuc.append("<div class='form-group classProgress'><label for='progressProject' class='col-form-label'></label> <label id='progressProject' class='col-form-label'><strong>Đánh giá: Kém</strong></label></div>");
 				}else if(detailEmployee.progress == 102){
+					hoanThanh++;
 					danhMuc.append("<div class='form-group classProgress'><label for='progressProject' class='col-form-label'></label> <label id='progressProject' class='col-form-label'><strong style='color:red;'>Đánh giá: Tốt</strong></label></div>");
 				}
 				dem++;
 			});
 			 $('#totalTask').empty();
 			  $('#totalTask').append("Tổng số công việc: " + dem);
+			  $('#totalTask').append("<h6>Hoàn thành: <strong style='color:red;'>" + hoanThanh+"</strong></h6>");
 			
 			
 		}).done(function() {

@@ -60,6 +60,7 @@ public class TaskToEmployeeController {
 		
 		
 		listTasks = pages.toList();
+		if(listTasks.size() >= 1) {
 		System.out.println("Get: "+pages.getPageable().toString());
 		System.out.println("Size of Pages: "+ pages.getSize());
 		System.out.println("Size: "+ pages.toList().size());
@@ -74,6 +75,9 @@ public class TaskToEmployeeController {
 		model.addAttribute("listTasks", listTasks);
 		model.addAttribute("project", project);
 		return "project_detail";
+		}else {
+			return "redirect:/admin/project/detail/"+ id +"/1";
+		}
 	}
 
 

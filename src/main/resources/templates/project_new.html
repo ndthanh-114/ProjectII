@@ -44,22 +44,22 @@
 }
 
 .myBtn:hover {
-	 text-decoration: underline;
+	text-decoration: underline;
 	color: #1E90FF;
 }
 
-.style-menu{
-	color:gray;
+.style-menu {
+	color: gray;
 	text-decoration: none;
 	margin: 0 3px;
 	display: block;
 }
+
 .style-menu:hover {
-	color:white;
+	color: white;
 	display: block;
 	text-decoration: none;
 }
-
 </style>
 <body>
 	<th:block th:include="/_header_new"></th:block>
@@ -68,26 +68,24 @@
 
 	<hr>
 	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
+		<div class="col-sm-8" style="margin: 0px 18%;">
 
-				<div th:if="${param.trung_ten}">
-					<div class="alert alert-info text-center">
-						<strong>Dự án này đã được tạo!</strong>
-					</div>
+			<div th:if="${param.trung_ten}">
+				<div class="alert alert-info text-center">
+					<strong>Dự án này đã được tạo!</strong>
 				</div>
+			</div>
 
 
-				<div th:if="${param.sai_ngay}">
-					<div class="alert alert-info text-center">
-						<strong>Ngày tạo sai!</strong>
-					</div>
+			<div th:if="${param.sai_ngay}">
+				<div class="alert alert-info text-center">
+					<strong>Ngày tạo sai!</strong>
 				</div>
+			</div>
 
-				<div th:if="${param.sai_ngay_cong_viec}">
-					<div class="alert alert-info text-center">
-						<strong>Lỗi ngày công việc!</strong>
-					</div>
+			<div th:if="${param.sai_ngay_cong_viec}">
+				<div class="alert alert-info text-center">
+					<strong>Lỗi ngày công việc!</strong>
 				</div>
 			</div>
 		</div>
@@ -148,8 +146,8 @@
 				<div class="form-group row" style="margin: 0 auto;">
 					<input type="button" class="btn btn-info col-3"
 						id="btnDeleteDetail" style="margin: 5px 0px;" value="Xóa chi tiết" />
-					<input type="button" class="btn btn-info col-3" id="btnAddDetail"
-						style="margin: 5px 0px;" value="Thêm chi tiết" />
+					&nbsp;<input type="button" class="btn btn-info col-3"
+						id="btnAddDetail" style="margin: 5px 0px;" value="Thêm chi tiết" />
 
 				</div>
 
@@ -187,30 +185,27 @@
 						function() {
 							btnAddDetail = $("#btnAddDetail");
 							fromAddDetail = $("#fromAddDetail");
-							btnDeleteDetail =$("#btnDeleteDetail");
-						
-	
+							btnDeleteDetail = $("#btnDeleteDetail");
+
 							btnAddDetail
 									.click(function() {
 										cntAddDetail += 1;
-										$('#fromAddDetail').append(
-												"<div id='"+String(cntAddDetail)+"'><div class='form-group'><label class='control-label' for='decription'>Chi tiết công việc: </label> <input id='decription' name ='decription' type='text' class='form-control' required autofocus='autofocus' /></div><div class='form-group'><div class='row'><div class='col-sm-6'><strong>Ngày tạo:</strong><input id='createDer' type='date' class='form-control'  name ='createDer' required autofocus='autofocus' /></div><div class='col-sm-6'><strong>Hạn chót: </strong><input id='endDer' type='date' class='form-control'  name ='endDer' required autofocus='autofocus' /></div></div></div></div>");
-										
+										$('#fromAddDetail')
+												.append(
+														"<div id='"
+																+ String(cntAddDetail)
+																+ "'><div class='form-group'><label class='control-label' for='decription'>Chi tiết công việc: </label> <input id='decription' name ='decription' type='text' class='form-control' required autofocus='autofocus' /></div><div class='form-group'><div class='row'><div class='col-sm-6'><strong>Ngày tạo:</strong><input id='createDer' type='date' class='form-control'  name ='createDer' required autofocus='autofocus' /></div><div class='col-sm-6'><strong>Hạn chót: </strong><input id='endDer' type='date' class='form-control'  name ='endDer' required autofocus='autofocus' /></div></div></div></div>");
 
 									});
-							btnDeleteDetail.click(function(){
-								
-								$('div#'+String(cntAddDetail)).empty();
-								$('div#'+String(cntAddDetail)).removeAttr('id');
-								cntAddDetail-=1;
+							btnDeleteDetail.click(function() {
+
+								$('div#' + String(cntAddDetail)).empty();
+								$('div#' + String(cntAddDetail)).removeAttr(
+										'id');
+								cntAddDetail -= 1;
 							});
-							
-					
-				});
-						
-												
-												
-					
+
+						});
 	</script>
 
 </body>

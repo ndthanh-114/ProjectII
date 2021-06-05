@@ -14,6 +14,8 @@ import project.web.dto.ProjectDTO;
 @Repository
 public interface ProjectRepository extends JpaRepository<Project, Integer>{
 	
+	
+	@Query("SELECT p FROM Project p ORDER BY p.name")
 	List<Project> findAll();
 	
 	Optional<Project> findById(Integer id);
@@ -24,6 +26,6 @@ public interface ProjectRepository extends JpaRepository<Project, Integer>{
 	@Query("SELECT new project.web.dto.ProjectDTO(p.id, p.name) FROM Project p")
 	List<ProjectDTO> findProject();
 	
-	@Query("SELECT p FROM Project p WHERE p.name LIKE %?1% ")
+	@Query("SELECT p FROM Project p WHERE p.name LIKE %?1% ORDER BY p.name")
 	List<Project> searchProject(String keyword);
 }

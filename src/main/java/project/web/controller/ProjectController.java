@@ -61,6 +61,7 @@ public class ProjectController {
 
 		
 		Integer pageSize = 4;
+		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		
 		System.out.println("Keyword " + keyword);
@@ -104,6 +105,8 @@ public class ProjectController {
 		if (pjService.saveProject(project).equals("date"))
 			return "redirect:/admin/project/create?sai_ngay";
 
+		
+		
 		String[] decriptions = request.getParameterValues("decription");
 		String[] createDers = request.getParameterValues("createDer");
 		String[] endDers = request.getParameterValues("endDer");
@@ -160,6 +163,10 @@ public class ProjectController {
 		}
 
 		for (int i = idMax; i < endDers.length; i++) {
+			if (ProcessDate.checkDate(project, createDers[i], endDers[i]) == false) {
+				model.addAttribute("stt", String.valueOf(i + 1));
+				return "redirect:/admin/project/update/" + id + "?chi_tiet_sai";
+			}
 			project.addTask(decriptions[i], createDers[i], endDers[i]);
 		}
 
