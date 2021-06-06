@@ -28,7 +28,7 @@ $(document).ready(function() {
 	delEmailEmployee = $('#delEmailEmployee');
 	labelDelModifyBy = $('#labelDelModifyBy');
 	btnDelTaskToEmployee = $('#btnDelTaskToEmployee');
-	
+
 	btnDelAllOfTask = $('#btnDelAllOfTask');
 	btnBad = $('#btnBad');
 	btnGood = $('#btnGood');
@@ -62,7 +62,7 @@ $(document).ready(function() {
 			var totalNow = $("#totalTaskNav").val();
 			//console.log("task now: "+ totalNow);
 			searchTask();
-			
+
 			//phan them moi
 			
 
@@ -78,14 +78,14 @@ $(document).ready(function() {
 	});
 
 	btnDelTaskToEmployee.click(function() {
-		
+
 		delEmployeeOutTask();
 	});
 
 
 
 	btnDelAllOfTask.click(function() {
-		
+
 		deleteTask();
 
 
@@ -114,17 +114,39 @@ $(document).ready(function() {
 	});
 
 
-	saveUpdateBad.click(function() {
+	saveUpdateBad.click(async function() {
 		console.log("Bad nhan");
-		saveBad();
+		await saveBad();
+		loadCompleteleDate();
 	});
 
-	saveUpdateGood.click(function() {
+	saveUpdateGood.click(async function() {
 		console.log("Good nhan");
-		saveGood();
+		await saveGood();
+		loadCompleteleDate();
+
 	});
 });
+function loadCompleteleDate() {
+	var projectID = $('#projectID').val();
+	console.log("ProjectID " + projectID);
+	url = "/rest/completeDate/" + projectID;
+	console.log("Nhan load ngay hoan thanh");
+	$.get(url, function(responseJson) {
+		console.log("response complete date " + responseJson.name);
+		if(responseJson.name != null){
+			console.log("response complete date" + responseJson.name);
+			$('#projectCompleted').empty();
+			$('#projectCompleted').append("<h4>Ngày hoàn thành " + responseJson.name +"</h4>");
+		}
+		
 
+	}).done(function() {
+
+	}).fail(function() {
+		alert('Failed');
+	});
+}
 
 async function saveBad() {
 	url = "/rest/admin/task/rate";
@@ -149,7 +171,7 @@ async function saveBad() {
 			$('.table ' + trID + ' .cot5').empty();// xóa cột 5 (cột tiến độ)
 			console.log("TrID" + trID);
 			if (data.progress == 101) {
-				$('table ' + trID + ' .cot5').append("<p style = 'font-size: 1vw; color: red;'><strong><i>Hoàn thành lúc: " + data.completeDate + "</i></strong></p>" + "<p style='font-size: 1vw; color: red;'><strong><i>Đánh giá: Kém</i></strong></p>");
+				$('table ' + trID + ' .cot5').append("<p style = 'font-size: 0.85rem; color: red;'><strong><i>Hoàn thành lúc: " + data.completeDate + "</i></strong></p>" + "<p style='font-size: 0.85rem; color: red;'><strong><i>Đánh giá: Kém</i></strong></p>");
 			}
 			alert("Cập nhật thành công");
 
@@ -184,7 +206,7 @@ async function saveGood() {
 			$('.table ' + trID + ' .cot5').empty();// xóa cột 5 (cột tiến độ)
 
 			if (data.progress == 102) {
-				$('.table ' + trID + ' .cot5').append("<p style = 'font-size: 1vw; color: red;'><strong><i>Hoàn thành lúc: " + data.completeDate + "</i></strong></p>" + "<p style='font-size: 1vw; color: red;'><strong><i>Đánh giá: Tốt</i></strong></p>");
+				$('.table ' + trID + ' .cot5').append("<p style = 'font-size: 0.85rem; color: red;'><strong><i>Hoàn thành lúc: " + data.completeDate + "</i></strong></p>" + "<p style='font-size: 0.85rem; color: red;'><strong><i>Đánh giá: Tốt</i></strong></p>");
 			}
 			alert("Cập nhật thành công");
 
@@ -223,15 +245,15 @@ async function deleteTask() {
 			var trID = '#' + tmp;
 			console.log(trID);
 			$('.table ' + trID).remove();
-			
-			
+
+
 			var totalRow = $('#totalNowTaskNav').text();
-			console.log("task row: "+ totalRow);
-			var deletedSucess = Number(totalRow) -1;
+			console.log("task row: " + totalRow);
+			var deletedSucess = Number(totalRow) - 1;
 			console.log("task new total row: " + deletedSucess);
-			 $('#totalNowTaskNav').empty();
-			 $('#totalNowTaskNav').append(deletedSucess);
-			
+			$('#totalNowTaskNav').empty();
+			$('#totalNowTaskNav').append(deletedSucess);
+
 			alert("Xóa toàn bộ công việc thành công");
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -275,7 +297,7 @@ async function delEmployeeOutTask() {
 				$('tbody ' + rowClass).append('<div>' + modifyBy.name + '</div>');
 				console.log(modifyBy.name);
 			});
-			
+
 
 			alert("Xóa nhân viên thành công");
 		},

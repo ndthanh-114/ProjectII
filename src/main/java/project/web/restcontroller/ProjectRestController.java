@@ -47,4 +47,12 @@ public class ProjectRestController {
 		}
 		return rs;
 	}
+	
+	@GetMapping("/rest/completeDate/{projectID}")
+	public ProjectDTO completeDateProject(@PathVariable("projectID")Integer projectID){
+		Project project = projectRepo.findById(projectID).get();
+		return new ProjectDTO(projectID, projectService.completeDateProject(project));
+		 
+	}
+	
 }

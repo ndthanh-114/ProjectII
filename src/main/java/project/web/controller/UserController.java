@@ -68,6 +68,85 @@ public class UserController {
 		model.addAttribute("totalTask", listTaskToEmp.size());
 		model.addAttribute("nameEmp", nameEmp);
 		model.addAttribute("listTaskToEmp", listTaskToEmp);
+		model.addAttribute("status", 2);
 		return "user_home";
 	}
+	
+	@GetMapping("/employee/updateProject/yes")
+	public String homeUserYes(Model model) {
+			return homePageUserYes(model, 1);
+	}
+	@GetMapping("/employee/updateProject/no")
+	public String homeUserNo(Model model) {
+			return homePageUserNo(model, 1);
+	}
+	
+	@GetMapping("/employee/updateProject/yes/{pageNo}")
+	public String homePageUserYes(Model model,@PathVariable(value = "pageNo") int pageNo)  {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String empEmail = userDetails.getUsername();
+		String nameEmp = empRepo.findByEmail(empEmail).getName();
+		List<TaskToEmployee> listTaskToEmp = userTaskService.taskUserSearch("yes");
+		for(TaskToEmployee tte: listTaskToEmp) {
+			tte.getTask().setCreateDate(ProcessDate.atomDate(tte.getTask().getCreateDate()));
+			tte.getTask().setEndDate(ProcessDate.atomDate(tte.getTask().getEndDate()));
+		}
+		
+	
+		Integer pageSize = 3;
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		int start = (int) pageable.getOffset();
+		int end = (int) ((start + pageable.getPageSize()) > listTaskToEmp.size() ? listTaskToEmp.size()
+				  : (start + pageable.getPageSize()));
+		Page<TaskToEmployee> pages = new PageImpl<TaskToEmployee>(listTaskToEmp.subList(start, end), pageable, listTaskToEmp.size());
+		
+		
+		listTaskToEmp = pages.toList();
+		
+		model.addAttribute("currentPage", pageNo);
+		model.addAttribute("totalPages", pages.getTotalPages());
+		model.addAttribute("totalItems", pages.getTotalElements());
+		
+		model.addAttribute("totalTask", listTaskToEmp.size());
+		model.addAttribute("nameEmp", nameEmp);
+		model.addAttribute("listTaskToEmp", listTaskToEmp);
+		model.addAttribute("status", 1);
+		return "user_home";
+	}
+	
+	@GetMapping("/employee/updateProject/no/{pageNo}")
+	public String homePageUserNo(Model model,@PathVariable(value = "pageNo") int pageNo)  {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String empEmail = userDetails.getUsername();
+		String nameEmp = empRepo.findByEmail(empEmail).getName();
+		List<TaskToEmployee> listTaskToEmp = userTaskService.taskUserSearch("no");
+		for(TaskToEmployee tte: listTaskToEmp) {
+			tte.getTask().setCreateDate(ProcessDate.atomDate(tte.getTask().getCreateDate()));
+			tte.getTask().setEndDate(ProcessDate.atomDate(tte.getTask().getEndDate()));
+		}
+		
+		
+		
+			Integer pageSize = 3;
+			Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+			int start = (int) pageable.getOffset();
+			int end = (int) ((start + pageable.getPageSize()) > listTaskToEmp.size() ? listTaskToEmp.size()
+					  : (start + pageable.getPageSize()));
+			Page<TaskToEmployee> pages = new PageImpl<TaskToEmployee>(listTaskToEmp.subList(start, end), pageable, listTaskToEmp.size());
+			
+			
+			listTaskToEmp = pages.toList();
+			
+			model.addAttribute("currentPage", pageNo);
+			model.addAttribute("totalPages", pages.getTotalPages());
+			model.addAttribute("totalItems", pages.getTotalElements());
+			
+			model.addAttribute("totalTask", listTaskToEmp.size());
+			model.addAttribute("nameEmp", nameEmp);
+			model.addAttribute("listTaskToEmp", listTaskToEmp);
+			model.addAttribute("status", 0);
+			return "user_home";
+		
+	}
+	
 }

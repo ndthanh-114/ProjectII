@@ -111,6 +111,19 @@ $(document).ready(function() {
 			console.log("click close");
 		}
 	});
+
+	$('input[type=radio][name=inlineRadioOptions]').change(function() {
+		if (this.value == 'all') {
+			window.location.href = "/employee/updateProject";
+		}
+		else if (this.value == 'completed') {
+			window.location.href = "/employee/updateProject/yes";
+		}
+		else if (this.value == 'notCompleted') {
+			window.location.href = "/employee/updateProject/no";
+		}
+	});
+
 });
 
 async function saveProgress() {
@@ -131,7 +144,7 @@ async function saveProgress() {
 			var rowID = '#' + taskID;
 			$('table ' + rowID + ' .cot5').empty();
 			if (data.completeDate != null) {
-				$('table ' + rowID + ' .cot5').append("<p style = 'font-size: 1vw; color: red;'><strong><i>Hoàn thành lúc: " + data.completeDate + "</i></strong></p>");
+				$('table ' + rowID + ' .cot5').append("<p style = 'font-size: 0.85rem; color: red;'><strong><i>Hoàn thành lúc: " + data.completeDate + "</i></strong></p>");
 			} else {
 				$('table ' + rowID + ' .cot5').append("<p>" + data.progress + "</p>");
 			}

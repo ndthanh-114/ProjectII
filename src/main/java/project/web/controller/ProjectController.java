@@ -125,6 +125,9 @@ public class ProjectController {
 		}
 
 		pjRepo.save(project);
+		
+		
+		
 		return "redirect:/admin/project";
 	}
 
@@ -168,8 +171,11 @@ public class ProjectController {
 				return "redirect:/admin/project/update/" + id + "?chi_tiet_sai";
 			}
 			project.addTask(decriptions[i], createDers[i], endDers[i]);
+			if(project.getCompleteDate() != null) {
+				project.setCompleteDate(null);
+			}
 		}
-
+		
 		pjRepo.save(project);
 		return "redirect:/admin/project";
 	}

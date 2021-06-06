@@ -6,6 +6,7 @@ import project.entity.Project;
 import project.web.dto.DisplayProject;
 import project.web.dto.ProjectDTO;
 
+
 public interface ProjectService {
 	List<Project> findAllProject();
 	
@@ -13,4 +14,5 @@ public interface ProjectService {
 	
 	List<ProjectDTO> findProjects();
 
+	String completeDateProject(Project project);
 }

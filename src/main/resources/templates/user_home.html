@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 
-<title>Dự án</title>
+<title>Tiến độ công việc</title>
 <meta charset="utf-8" />
 <th:block th:include="/_header_src"></th:block>
 
@@ -84,10 +84,44 @@
 
 	<div class="container">
 		<div class="row">
-				
-				<a style="margin: 0 1vw;" class="btn btn-info btnUpdateProgress" id="btnUpdateProgress"><i
-				class="fas fa-marker"></i><span class="nutUpdate"> Cập nhật
-					công việc</span> </a>
+
+			<a style="margin: 0 1vw;" class="btn btn-info btnUpdateProgress"
+				id="btnUpdateProgress"><i class="fas fa-marker"></i><span
+				class="nutUpdate"> Cập nhật công việc</span> </a>
+
+			<div class="form-check form-check-inline">
+				<th:block th:if = "${status} == 2">
+				<input class="form-check-input" type="radio"
+					name="inlineRadioOptions" id="inlineRadio1" value="all" checked>
+				</th:block>
+				<th:block th:unless = "${status} == 2">
+				<input class="form-check-input" type="radio"
+					name="inlineRadioOptions" id="inlineRadio1" value="all" >
+					</th:block>
+				<label class="form-check-label" for="inlineRadio1">Tất cả</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<th:block th:if = "${status} == 1">
+				<input class="form-check-input" type="radio"
+					name="inlineRadioOptions" id="inlineRadio2" value="completed" checked>
+				</th:block>
+				<th:block th:unless = "${status} == 1">
+				<input class="form-check-input" type="radio"
+					name="inlineRadioOptions" id="inlineRadio2" value="completed" >
+				</th:block>
+				<label class="form-check-label" for="inlineRadio2">Đã hoàn thành</label>
+			</div>
+			<div class="form-check form-check-inline">
+				<th:block th:if = "${status} == 0">
+				<input class="form-check-input" type="radio"
+					name="inlineRadioOptions" id="inlineRadio3" value="notCompleted" checked>
+				</th:block>
+				<th:block th:unless = "${status} == 0">
+				<input class="form-check-input" type="radio"
+					name="inlineRadioOptions" id="inlineRadio3" value="notCompleted" >
+				</th:block>
+				<label class="form-check-label" for="inlineRadio3">Chưa hoàn thành</label>
+			</div>
 		</div>
 		<br>
 		<table border="1"
@@ -117,28 +151,28 @@
 					<td class="cot5"><th:block
 							th:if="${taskToEmp.task.progressTask} < 100">
 
-							<p>[[${taskToEmp.task.progressTask}]]</p>
+							<div>[[${taskToEmp.task.progressTask}]]</div>
 
 						</th:block> <th:block th:if="${taskToEmp.task.progressTask} == 100">
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Hoàn thành lúc:
 										[[${taskToEmp.task.completeDate}]]</i></strong>
 							</p>
 						</th:block> <th:block th:if="${taskToEmp.task.progressTask} == 101">
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Hoàn thành lúc:
 										[[${taskToEmp.task.completeDate}]]</i></strong>
 							</p>
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Đánh giá: Kém</i></strong>
 							</p>
 
 						</th:block> <th:block th:if="${taskToEmp.task.progressTask} == 102">
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Hoàn thành lúc:
 										[[${taskToEmp.task.completeDate}]]</i></strong>
 							</p>
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Đánh giá: Tốt</i></strong>
 							</p>
 
@@ -154,10 +188,26 @@
 			<div class="row col-sm-12">
 				<div class="col-sm-2">Tổng công việc: [[${totalItems}]]</div>
 				<div class="col-sm-10">
-					<span th:each="i: ${#numbers.sequence(1, totalPages )}"> <a
+					<span th:each="i: ${#numbers.sequence(1, totalPages )}">
+						<th:block th:if = "${status} == 2"> 
+						<a
 						th:if="${currentPage != i}"
-						th:href="@{'/employee/updateProject/' + ${i}}">[[${i}]]</a> <span
-						th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
+						th:href="@{'/employee/updateProject/' + ${i}}">[[${i}]]
+						</a> 
+						</th:block>
+						<th:block th:if = "${status} == 1"> 
+						<a
+						th:if="${currentPage != i}"
+						th:href="@{'/employee/updateProject/yes/' + ${i}}">[[${i}]]
+						</a> 
+						</th:block>
+						<th:block th:if = "${status} == 0"> 
+						<a
+						th:if="${currentPage != i}"
+						th:href="@{'/employee/updateProject/no/' + ${i}}">[[${i}]]
+						</a> 
+						</th:block>
+					<span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp; &nbsp;
 					</span>
 				</div>
 			</div>

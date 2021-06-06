@@ -22,6 +22,12 @@ public interface TaskToEmployeeRepository extends JpaRepository<TaskToEmployee, 
 	
 	TaskToEmployee findByTaskAndEmployee(Task task, Employee employee);
 	
-	@Query("SELECT tte FROM TaskToEmployee tte WHERE tte.employee = ?1 ORDER BY tte.task.project desc, tte.task.decription")
+	@Query("SELECT tte FROM TaskToEmployee tte WHERE tte.employee = ?1 ORDER BY tte.task.project.name , tte.task.decription ")
 	List<TaskToEmployee> findByEmployee(Employee employee);
+	
+	@Query("SELECT tte FROM TaskToEmployee tte WHERE tte.employee = ?1 AND tte.task.progressTask > 100 ORDER BY tte.task.project.name , tte.task.decription")
+	List<TaskToEmployee> findByEmployeeYes(Employee employee);
+	
+	@Query("SELECT tte FROM TaskToEmployee tte WHERE tte.employee = ?1 AND tte.task.progressTask <101 ORDER BY tte.task.project.name , tte.task.decription")
+	List<TaskToEmployee> findByEmployeeNo(Employee employee);
 }

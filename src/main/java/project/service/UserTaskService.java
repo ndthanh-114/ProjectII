@@ -38,7 +38,19 @@ public class UserTaskService {
 		return taskToEmpRepo.findByEmployee(emp);
 		
 	}
-	
+	public List<TaskToEmployee> taskUserSearch(String keyword) {
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String emailUser = userDetails.getUsername();
+		Employee emp = empRepo.findByEmail(emailUser);
+		if(keyword == null)
+			return taskToEmpRepo.findByEmployee(emp);
+		else if(keyword.equals("yes")) {
+			return taskToEmpRepo.findByEmployeeYes(emp);
+		}else {
+			return taskToEmpRepo.findByEmployeeNo(emp);
+		}
+		
+	}
 	public UserProjectDetailDTO detailProject(Integer id){
 		Project project = projectRepo.findById(id).get();
 		ProcessDate.convertDateProject(project);

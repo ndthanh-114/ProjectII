@@ -68,12 +68,15 @@
 
 
 	<div class="container text-center">
+		<input type = "hidden" th:value = "${project.id}" id = "projectID"/>
 		<h1>Dự án [[${project.name}]]</h1>
 		<h4>Ngày tạo [[${project.createDate}]]</h4>
 		<h4>Ngày kết thúc [[${project.endDate}]]</h4>
-		<th:block th:if="${project.completeDate} !=null">
-			<h4>Ngày hoàn thành [[${project.completeDate}]]</h4>
-		</th:block>
+		<div id="projectCompleted">
+			<th:block th:if="${project.completeDate} !=null">
+			<h4 >Ngày hoàn thành [[${project.completeDate}]]</h4>
+			</th:block>
+		</div>
 	</div>
 
 	<div class="container">
@@ -100,10 +103,10 @@
 
 					<td class="cot5"><th:block th:if="${task.progressTask} < 100">
 
-							<p>[[${task.progressTask}]]</p>
+							<div>[[${task.progressTask}]]</div>
 
 						</th:block> <th:block th:if="${task.progressTask} == 100">
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Hoàn thành lúc: [[${task.completeDate}]]</i></strong>
 							</p>
 							<a class="btn btn-info btnBad" id="btnBad" value="101"><i
@@ -112,18 +115,18 @@
 								class="far fa-thumbs-up"></i></a>
 
 						</th:block> <th:block th:if="${task.progressTask} == 101">
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Hoàn thành lúc: [[${task.completeDate}]]</i></strong>
 							</p>
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Đánh giá: Kém</i></strong>
 							</p>
 
 						</th:block> <th:block th:if="${task.progressTask} == 102">
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Hoàn thành lúc: [[${task.completeDate}]]</i></strong>
 							</p>
-							<p style="font-size: 1vw; color: red;">
+							<p style="font-size: 0.85rem; color: red;">
 								<strong><i>Đánh giá: Tốt</i></strong>
 							</p>
 						</th:block></td>
@@ -140,9 +143,15 @@
 
 						</th:block></td>
 
-					<td><a class="btn btn-info editBtn" style = "margin-bottom: 2px;" id="editTaskDetail"><i
-							class="fas fa-pen"></i></a> <a class="btn btn-info delBtn"
-						id="btnDelTaskDetail"><i class="fas fa-trash"></i></a></td>
+					<td>
+					<th:block th:if="${task.progressTask} < 100" >
+					<a class="btn btn-info editBtn" style = "margin-bottom: 2px;" id="editTaskDetail"><i
+							class="fas fa-pen"></i></a> 
+					</th:block>
+					<a class="btn btn-info delBtn"
+						id="btnDelTaskDetail"><i class="fas fa-trash"></i></a>
+						
+					</td>
 
 				</tr>
 			</tbody>
