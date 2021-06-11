@@ -128,7 +128,8 @@ public class EmployeeController {
 
 	@GetMapping("/admin/managerEmployee/deleteEmployee/{id}")
 	public String deleteEmployee(@PathVariable(value = "id") Integer id) {
-
+		Employee emp = empRepo.findAllById(id);
+		taskToEmpRepo.deleteByEmployee(emp);
 		this.empRepo.deleteById(id);
 
 		return "redirect:/admin/managerEmployee";
