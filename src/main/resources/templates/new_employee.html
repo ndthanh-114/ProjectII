@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 
-<title>Dự án</title>
+<title>Thêm nhân viên</title>
 <meta charset="utf-8" />
 <th:block th:include="/_header_src"></th:block>
 
@@ -104,10 +104,10 @@
 	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
+			<div style= "margin: 0 20%;" class="col-md-6 col-md-offset-3">
 
 				<div th:if="${param.errorMs}">
-					<div class="alert alert-info text-center"><strong>Tài khoản này đã được tạo!</strong></div>
+					<div  class="alert alert-info text-center"><strong>Tài khoản này đã được tạo!</strong></div>
 				</div>
 			</div>
 		</div>
